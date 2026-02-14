@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JEE Challenger | AI Tutor</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <p class="pill">Built for JEE Aspirants</p>
+      <h1>JEE Challenger</h1>
+      <p>
+        Your AI-driven personal tutor that instantly builds interactive simulations and visual
+        tools so you can master complex JEE concepts through practical learning.
+      </p>
+    </header>
+
+    <main class="layout">
+      <section class="panel">
+        <h2>AI Concept Studio</h2>
+        <p>Describe what you want to practice and generate a smart activity instantly.</p>
+        <label for="topicInput">What do you want to learn?</label>
+        <textarea id="topicInput" rows="3" placeholder="e.g. Explain projectile motion in JEE-level depth"></textarea>
+        <div class="actions">
+          <button id="generateBtn">Generate Learning Mission</button>
+          <button id="surpriseBtn" class="ghost">Surprise Me</button>
+        </div>
+        <article id="aiOutput" class="ai-output" aria-live="polite">
+          <h3>Ready to generate</h3>
+          <p>
+            Enter a concept above and JEE Challenger will assemble a guided mission, simulation,
+            and challenge questions.
+          </p>
+        </article>
+      </section>
+
+      <section class="panel">
+        <h2>Interactive Simulation Lab</h2>
+        <p>Drag sliders and watch concepts come alive.</p>
+        <div class="sim-controls">
+          <label>
+            Launch Angle: <span id="angleValue">45°</span>
+            <input type="range" id="angle" min="10" max="80" value="45" />
+          </label>
+          <label>
+            Speed: <span id="speedValue">35 m/s</span>
+            <input type="range" id="speed" min="10" max="60" value="35" />
+          </label>
+          <label>
+            Gravity: <span id="gravityValue">9.8 m/s²</span>
+            <input type="range" id="gravity" min="2" max="20" step="0.1" value="9.8" />
+          </label>
+        </div>
+        <canvas id="trajectoryCanvas" width="520" height="280"></canvas>
+        <div class="metrics" id="metrics"></div>
+      </section>
+
+      <section class="panel full">
+        <h2>Quick Challenge Zone</h2>
+        <p>Solve adaptive questions generated from your selected concept.</p>
+        <div id="quiz"></div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
