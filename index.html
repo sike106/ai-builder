@@ -61,6 +61,25 @@
         <p>Solve adaptive questions generated from your selected concept.</p>
         <div id="quiz"></div>
       </section>
+
+      <section class="panel full">
+        <h2>Admin Content Upload</h2>
+        <p>
+          Upload custom concept packs (JSON) to instantly update missions and challenge questions
+          without editing code.
+        </p>
+        <div class="admin-grid">
+          <label for="adminKey">Admin key</label>
+          <input id="adminKey" type="password" placeholder="Enter admin key" />
+          <label for="contentUpload">Content pack (.json)</label>
+          <input id="contentUpload" type="file" accept="application/json" />
+          <button id="uploadBtn">Upload Pack</button>
+        </div>
+        <article id="uploadStatus" class="ai-output" aria-live="polite">
+          <h3>Upload status</h3>
+          <p>Waiting for admin upload.</p>
+        </article>
+      </section>
     </main>
 
     <script src="app.js"></script>

@@ -1,3 +1,5 @@
+const ADMIN_KEY = 'jee-admin-2026';
+
 const presets = {
   projectile: {
     mission:
@@ -34,6 +36,11 @@ const surpriseBtn = document.getElementById('surpriseBtn');
 const aiOutput = document.getElementById('aiOutput');
 const quiz = document.getElementById('quiz');
 
+const adminKey = document.getElementById('adminKey');
+const contentUpload = document.getElementById('contentUpload');
+const uploadBtn = document.getElementById('uploadBtn');
+const uploadStatus = document.getElementById('uploadStatus');
+
 const angle = document.getElementById('angle');
 const speed = document.getElementById('speed');
 const gravity = document.getElementById('gravity');
@@ -68,6 +75,68 @@ function renderQuiz(questions) {
       (question, index) => `<div class="quiz-item"><strong>Q${index + 1}.</strong> ${question}</div>`
     )
     .join('');
+}
+
+function isValidContentPack(pack) {
+  if (!pack || typeof pack !== 'object') return false;
+
+  return Object.values(pack).every((entry) => {
+    return (
+      entry &&
+      typeof entry.mission === 'string' &&
+      entry.mission.trim().length > 0 &&
+      Array.isArray(entry.challenge) &&
+      entry.challenge.length > 0 &&
+      entry.challenge.every((q) => typeof q === 'string' && q.trim().length > 0)
+    );
+  });
+}
+
+function showUploadStatus(title, message) {
+  uploadStatus.innerHTML = `
+    <h3>${title}</h3>
+    <p>${message}</p>
+  `;
+}
+
+function handleUpload() {
+  const key = adminKey.value.trim();
+  const file = contentUpload.files[0];
+
+  if (key !== ADMIN_KEY) {
+    showUploadStatus('Upload failed', 'Invalid admin key.');
+    return;
+  }
+
+  if (!file) {
+    showUploadStatus('Upload failed', 'Please choose a JSON file to upload.');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(reader.result);
+      if (!isValidContentPack(parsed)) {
+        showUploadStatus(
+          'Upload failed',
+          'Invalid schema. Each topic must include a mission string and non-empty challenge array.'
+        );
+        return;
+      }
+
+      Object.assign(presets, parsed);
+      const topics = Object.keys(parsed);
+      showUploadStatus(
+        'Upload successful',
+        `Loaded ${topics.length} topic(s): ${topics.join(', ')}. You can now generate missions for them.`
+      );
+    } catch {
+      showUploadStatus('Upload failed', 'Unable to parse JSON file.');
+    }
+  };
+
+  reader.readAsText(file);
 }
 
 function drawTrajectory() {
@@ -120,6 +189,8 @@ surpriseBtn.addEventListener('click', () => {
   topicInput.value = `Give me a smart mission on ${topic}`;
   renderMission(topic);
 });
+
+uploadBtn.addEventListener('click', handleUpload);
 
 [angle, speed, gravity].forEach((input) => input.addEventListener('input', drawTrajectory));
 

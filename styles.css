@@ -68,11 +68,15 @@ label {
 
 textarea,
 button,
+input[type='password'],
+input[type='file'],
 input[type='range'] {
   width: 100%;
 }
 
-textarea {
+textarea,
+input[type='password'],
+input[type='file'] {
   margin-top: 0.45rem;
   background: rgba(0, 0, 0, 0.25);
   color: var(--text);
@@ -134,4 +138,9 @@ button.ghost {
 
 .quiz-item strong {
   color: var(--accent);
+}
+
+.admin-grid {
+  display: grid;
+  gap: 0.7rem;
 }
