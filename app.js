@@ -51,8 +51,25 @@ const metrics = document.getElementById('metrics');
 const canvas = document.getElementById('trajectoryCanvas');
 const ctx = canvas.getContext('2d');
 
+const tabButtons = [...document.querySelectorAll('.tab-btn')];
+const tabPanels = [...document.querySelectorAll('.tab-panel')];
+
+function openTab(tabName) {
+  tabButtons.forEach((button) => {
+    button.classList.toggle('active', button.dataset.tab === tabName);
+  });
+
+  tabPanels.forEach((panel) => {
+    panel.classList.toggle('active', panel.dataset.panel === tabName);
+  });
+}
+
 function detectTopic(input) {
   const text = input.toLowerCase();
+
+  const dynamicTopic = Object.keys(presets).find((topic) => text.includes(topic.toLowerCase()));
+  if (dynamicTopic) return dynamicTopic;
+
   if (text.includes('charge') || text.includes('electric') || text.includes('electro')) return 'electrostatics';
   if (text.includes('thermo') || text.includes('heat') || text.includes('gas')) return 'thermodynamics';
   return 'projectile';
@@ -67,6 +84,7 @@ function renderMission(topic, userPrompt) {
     <p><strong>Flow:</strong> Visual intuition → equation mapping → timed challenge drill.</p>
   `;
   renderQuiz(data.challenge);
+  openTab('studio');
 }
 
 function renderQuiz(questions) {
@@ -131,6 +149,7 @@ function handleUpload() {
         'Upload successful',
         `Loaded ${topics.length} topic(s): ${topics.join(', ')}. You can now generate missions for them.`
       );
+      openTab('admin');
     } catch {
       showUploadStatus('Upload failed', 'Unable to parse JSON file.');
     }
@@ -177,6 +196,10 @@ function drawTrajectory() {
   `;
 }
 
+tabButtons.forEach((button) => {
+  button.addEventListener('click', () => openTab(button.dataset.tab));
+});
+
 generateBtn.addEventListener('click', () => {
   const prompt = topicInput.value.trim();
   const topic = detectTopic(prompt);
@@ -187,7 +210,7 @@ surpriseBtn.addEventListener('click', () => {
   const topics = Object.keys(presets);
   const topic = topics[Math.floor(Math.random() * topics.length)];
   topicInput.value = `Give me a smart mission on ${topic}`;
-  renderMission(topic);
+  renderMission(topic, topicInput.value);
 });
 
 uploadBtn.addEventListener('click', handleUpload);
@@ -196,3 +219,4 @@ uploadBtn.addEventListener('click', handleUpload);
 
 drawTrajectory();
 renderMission('projectile', 'Explain projectile motion in JEE-level depth');
+openTab('studio');

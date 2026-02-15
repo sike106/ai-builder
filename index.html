@@ -17,7 +17,14 @@
     </header>
 
     <main class="layout">
-      <section class="panel">
+      <nav class="tab-bar panel full" aria-label="Primary sections">
+        <button class="tab-btn active" data-tab="studio">AI Concept Studio</button>
+        <button class="tab-btn" data-tab="simulation">Simulation Lab</button>
+        <button class="tab-btn" data-tab="challenges">Challenge Zone</button>
+        <button class="tab-btn" data-tab="admin">Admin Upload</button>
+      </nav>
+
+      <section class="panel tab-panel active" data-panel="studio">
         <h2>AI Concept Studio</h2>
         <p>Describe what you want to practice and generate a smart activity instantly.</p>
         <label for="topicInput">What do you want to learn?</label>
@@ -35,7 +42,7 @@
         </article>
       </section>
 
-      <section class="panel">
+      <section class="panel tab-panel" data-panel="simulation">
         <h2>Interactive Simulation Lab</h2>
         <p>Drag sliders and watch concepts come alive.</p>
         <div class="sim-controls">
@@ -56,13 +63,13 @@
         <div class="metrics" id="metrics"></div>
       </section>
 
-      <section class="panel full">
+      <section class="panel full tab-panel" data-panel="challenges">
         <h2>Quick Challenge Zone</h2>
         <p>Solve adaptive questions generated from your selected concept.</p>
         <div id="quiz"></div>
       </section>
 
-      <section class="panel full">
+      <section class="panel full tab-panel" data-panel="admin">
         <h2>Admin Content Upload</h2>
         <p>
           Upload custom concept packs (JSON) to instantly update missions and challenge questions
